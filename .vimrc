@@ -69,7 +69,6 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'       "   
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-utils/vim-man'
-Plug 'lyuts/vimtags'
 Plug 'ycm-core/YouCompleteMe'   "Autocomplete 
 Plug 'mbbill/undotree'          " Undotree
 Plug 'lervag/vimtex'            " 
@@ -81,8 +80,10 @@ Plug 'jiangmiao/auto-pairs'    " auto-complete brackets, etc
 Plug 'preservim/nerdtree'       " file manger 
 Plug 'artur-shaik/vim-javacomplete2'    " java auto complete
 Plug 'raingo/vim-matlab'       " Matlab syntax support.
-"Plug 'neovimhaskell/haskell-vim'      " Haskell support
+Plug 'neovimhaskell/haskell-vim'      " Haskell support
 Plug 'dag/vim2hs'
+Plug 'godlygeek/tabular'          "Markdown vim markdown
+Plug 'preservim/vim-markdown'     " Markdown
 call plug#end()
 " Java completion
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
@@ -121,8 +122,8 @@ nmap <F2> :NERDTreeToggle <CR>
 "snaps config
 let g:UltiSnipsSnippetsDir = "~/.vim/plugged/ultisnips/plugin/UltiSnips.vim "
 let g:UltiSnipsExpandTrigger="<S-q>"
-let g:UltiSnipsJumpForwardTrigger="<S-f>"
-let g:UltiSnipsJumpBackwardTrigger="<S-.>"
+let g:UltiSnipsJumpForwardTrigger="<S-z>"
+let g:UltiSnipsJumpBackwardTrigger="<S-x>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 nmap <F3> :UltiSnipsEdit<CR>
@@ -173,7 +174,7 @@ nnoremap <leader>l :tabn<CR>
 
 " spelling
 nnoremap <leader>c @='[sz='<CR> 
-inoremap <C-e> <Esc><S-a>;<CR>
+inoremap <C-e> <Esc><S-a>;
 inoremap <C-a> <Esc><S-a>
 nnoremap <leader>pv :wincmd v <bar> :Ex <Bar> :vertical resize 30<CR>
 nnoremap <silent> <leader> + : vertical resize +5<CR>
