@@ -1,58 +1,57 @@
+
+
+
+" =============== Basic Settings ==========================
 set encoding =utf-8
-
-" Disable compatibility with vi which can cause unexpected issues.
-set nocompatible
-
+set nocompatible                    " Disable compatibility vi (error control) 
+set noswapfile                      " no swap files
+syntax on                           " enable syntax
+filetype on                         " enable type file detection
+set number relativenumber           " relative line numbers
+set history=1000                    " command history
+set linebreak                       " text wrapping 
+set textwidth=90                    " line length
+set colorcolumn=90                  " col colour grey
+set wrap                            " enable text wrapping
+set breakindent                     " smart wrapping indentation
+set breakindentopt=shift:4,min:40,sbr
+set showbreak=++>                 " Show line break
+set cursorline                      " line cursor on
+set smartcase ignorecase incsearch  " text searching and highlighting
+set tabstop=4 softtabstop=4         " tab settings
+set expandtab shiftwidth=4 smarttab " tab settings 
+set scrolloff=7                     " lines above/below cursor line
+set noerrorbells                    " no ring on error
+set nobackup                        " set noback (use undo instead)
+set undofile undodir=~/.vim/undodir " persistent undo 
+set laststatus=2                    " status line [ 0=never, 1=two_win, 2=always]
+set timeoutlen=1000 ttimeoutlen=1000 " timeout for keybind presses
+set wildmenu                        " auto completion menu TAB
+set wildmode=list:longest           " wildmenu behave like Bash completion
+" There are certain files that we would never want to edit with Vim.
+" Wildmenu will ignore files with these extensions.
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+"
 " Configure built-in terminal ( :term )
 set termwinsize=12x0    "Set terminal size 
-
 set splitbelow          " Open below / rather than on top
-
-" Enable type file detection. Vim will be able to try to detect the type of
-" file in use.
- filetype on
 
 " Enable plugins and load plugin for the detected file type.
 filetype plugin on
-syntax on
-filetype plugin indent on
-
-
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set number relativenumber
-set nowrap
-set smartcase
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
-set cursorline
-
-set laststatus=2 " status line [ 0=never, 1=two_win, 2=always]
 
 " spell checker stuff
 set spell ! spelllang=en_gb
 autocmd BufNewFile, BufRead *.tex syntax sync fromstart
+"
 "test for highlighting
 let g:gruvbox_guisp_fallback = "bg"
-" Enable auto completion menu after pressing TAB.
- set wildmenu
 
-" Make wildmenu behave like similar to Bash completion.
-set wildmode=list:longest
-"
-" There are certain files that we would never want to edit with Vim.
-" Wildmenu will ignore files with these extensions.
-set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
-
-
-set colorcolumn=80
+" colours
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+set background=dark
+" map f6 to change light to dark
+nnoremap <f6> :let &bg=(&bg=='light'?'dark':'light')<cr>
+
 
 " python stuff
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '! clear ; python3' shellescape(@%, 1)<CR>
@@ -62,55 +61,70 @@ autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '! clear ; python3' 
 autocmd FileType lua map <buffer> <F9> :w<CR>:exec '! clear ; lua ' shellescape(@%, 1)<CR>
 autocmd FileType lua imap <buffer> <F9> <esc> :w<CR>:exec '! clear ; lua ' shellescape(@%, 1)<CR>
 
-call plug#begin('~/.vim/plugged')
+" =============== Plugins ==========================================
 
-Plug 'morhetz/gruvbox'          " Colortheme
-Plug 'jremmen/vim-ripgrep'      
-Plug 'tpope/vim-fugitive'       "   
-Plug 'leafgarland/typescript-vim'
-Plug 'vim-utils/vim-man'
-Plug 'ycm-core/YouCompleteMe'   "Autocomplete 
-Plug 'mbbill/undotree'          " Undotree
-Plug 'lervag/vimtex'            " 
-Plug 'vim-syntastic/syntastic'  " ??
-Plug 'SirVer/ultisnips'         " Ultisnips Custom snips 
-Plug 'vimwiki/vimwiki'          " Vim wiki package ( *.wiki)
-Plug 'sheerun/vim-polyglot'     " Language pack for syntax Highlighting
-Plug 'jiangmiao/auto-pairs'    " auto-complete brackets, etc
-Plug 'preservim/nerdtree'       " file manger 
-Plug 'artur-shaik/vim-javacomplete2'    " java auto complete
-Plug 'raingo/vim-matlab'       " Matlab syntax support.
-Plug 'neovimhaskell/haskell-vim'      " Haskell support
-Plug 'dag/vim2hs'
-Plug 'godlygeek/tabular'          "Markdown vim markdown
-Plug 'preservim/vim-markdown'     " Markdown
-call plug#end()
+call plug#begin('~/.vim/plugged')
+    " colour & Themes {
+     Plug 'morhetz/gruvbox'                  " Colortheme
+     Plug 'luochen1990/rainbow'              " bracket colouring
+    "}
+
+    " Quality of Life {
+    Plug 'ycm-core/YouCompleteMe'           "Autocomplete 
+    Plug 'jiangmiao/auto-pairs'             " auto-complete brackets, etc
+    Plug 'SirVer/ultisnips'                 " Ultisnips Custom snips 
+    Plug 'mbbill/undotree'                  " Undotree
+    Plug 'jremmen/vim-ripgrep'              " word will be searched by 'Rg'
+    "}
+
+    Plug 'tpope/vim-fugitive'       "   
+    Plug 'leafgarland/typescript-vim'
+    Plug 'vim-utils/vim-man'
+    Plug 'vim-syntastic/syntastic'          " ??
+
+    " Languages {
+    Plug 'sheerun/vim-polyglot'             " Language pack for syntax Highlighting
+    Plug 'lervag/vimtex'                    " Latex 
+    Plug 'debdeepbh/vim-matlab'             " Matlab
+    Plug 'neovimhaskell/haskell-vim'        " Haskell support
+    Plug 'dag/vim2hs'                       " Haskell
+    Plug 'artur-shaik/vim-javacomplete2'    " java auto complete
+    "}
+
+   " File tree {
+    Plug 'preservim/nerdtree'               " file manger 
+   "}
+
+   " Markdown {
+    Plug 'vimwiki/vimwiki'                  " Vim wiki package(*.wiki)
+    Plug 'preservim/vim-markdown'           " Markdown
+    Plug 'mmai/vim-markdown-wiki'           
+    "}
+call plug#end( )
+
+" Rainbow brackets
+let g:rainbow_active = 1 " set to 0 to enable later
+"
 " Java completion
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd FileType java JCEnable
+
 " youcompleteme remove the preview window pop.
 set completeopt-=preview
 autocmd vimenter * ++nested colorscheme gruvbox
+
 " Set colour scheme for default - use (:color *)
 colorscheme gruvbox
+
 "Auto-pair set toggle
 let g:AutoPairsShortcutToggle = '<C-P>'
 
 " haskell-vim
 let g:haskell_conceal_wide = 1
-"let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-"let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo`and `rec`
-"let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-"let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-"let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-"let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-"let g:haskell_backpack = 1                " to enable highlighting of backpackkeywords
-"let g:haskell_classic_highlighting = 1"
 
 "Undotree toggle
 nnoremap <F5> :UndotreeToggle<CR>
 "
-"set background=dark
 " Nerdtree file manager configs
 let NERDTreeShowBookmarks = 1   "Show the bookmark table
 let NERDTreeShowHidden = 1      "Show hidden files
@@ -119,6 +133,7 @@ let NERDTreeShowMinimalMenu = 1 "Use the minimal menu(m)
 let NERDTreeWinPos = "left"     " Panel opens on the left handside 
 let NERDTreeWinSize = 31        " Set panel width to 31 col
 nmap <F2> :NERDTreeToggle <CR>
+
 "snaps config
 let g:UltiSnipsSnippetsDir = "~/.vim/plugged/ultisnips/plugin/UltiSnips.vim "
 let g:UltiSnipsExpandTrigger="<S-q>"
@@ -127,14 +142,11 @@ let g:UltiSnipsJumpBackwardTrigger="<S-x>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 nmap <F3> :UltiSnipsEdit<CR>
-set background=dark
-" map f6 to change light to dark
-nnoremap <f6> :let &bg=(&bg=='light'?'dark':'light')<cr>
-
 if executable('rg')
     let g:rg_derive_root='true'
 endif
 
+" Vimtex config 
 syntax enable
 "  let g:vimtex_compiler_method='latexmk'
 let g:tex_flavor='latex'
@@ -149,11 +161,11 @@ endif
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 
 " Matlab execute file being edited with F9
-map <buffer> <F9> :w <CR>:!matlab -nodesktop -nosplash -r "try, run %, pause, catch, end,quit" <CR><CR> 
+autocmd BufEnter *.m map <buffer> <F9> :w <CR>:! /home/james/.matlab_bin/bin/matlab -nodesktop -nosplash -r "try, run %, pause, catch, end,quit" <CR><CR>  
 let g:ycm_seed_identifiers_with_syntax =1
 let g:ycm_collect_identifiers_from_tags_files = 1
 autocmd BufEnter *.m compiler mlint
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-
+source $VIMRUNTIME/macros/matchit.vim
 
 " Set space as the leader key.
 let mapleader = " "
@@ -174,6 +186,7 @@ nnoremap <leader>l :tabn<CR>
 
 " spelling
 nnoremap <leader>c @='[sz='<CR> 
+" my own key binds
 inoremap <C-e> <Esc><S-a>;
 inoremap <C-a> <Esc><S-a>
 nnoremap <leader>pv :wincmd v <bar> :Ex <Bar> :vertical resize 30<CR>
