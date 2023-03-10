@@ -75,8 +75,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'SirVer/ultisnips'                 " Ultisnips Custom snips 
     Plug 'mbbill/undotree'                  " Undotree
     Plug 'jremmen/vim-ripgrep'              " word will be searched by 'Rg'
+    Plug 'rhysd/vim-grammarous'             "grammar checker for Vim
     "}
-
+    
     Plug 'tpope/vim-fugitive'       "   
     Plug 'leafgarland/typescript-vim'
     Plug 'vim-utils/vim-man'
@@ -105,7 +106,20 @@ call plug#end( )
 " Rainbow brackets
 let g:rainbow_active = 1 " set to 0 to enable later
 "
-" Java completion
+" vim- gramma
+let g:grammarous#jar_url = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+endfunction
+
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer><C-n>
+    nunmap <buffer><C-p>
+endfunction
+
+"" Java completion
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd FileType java JCEnable
 
@@ -150,10 +164,12 @@ endif
 syntax enable
 "  let g:vimtex_compiler_method='latexmk'
 let g:tex_flavor='latex'
+let g:vimtex_compiler_engine = 'xelatex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
+autocmd BufEnter *.tex map <buffer> <F9> :w <CR>:! xelatex % <CR><CR>  
 
 if !exists('g:ycm_semantic_triggers')
     let g:ycm_semantic_triggers = {}

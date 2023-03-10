@@ -22,6 +22,54 @@ alias cmatlab='function _cmatlab() { matlab -nodesktop -nosplash -r "try, run"; 
 # java stu commands
 # create .jar
 alias jarmk='function _jarmk() { jar cfM  $*-jzk340.jar *.java; }; _jarmk'
+# music
+# script to add music to file
+addyt(){
+    local OPTIND folderType
+    while getopts ":bgBy" option; do
+        case $option in
+            b) folderType=/home/james/.ytbassls;;
+            g) folderType=/home/james/.ytGuitar ;;
+            B) folderType=/home/james/.ytGuitarBacking  ;;
+            y) folderType=/home/james/.ytwatch ;;
+            ?) echo "invalid option $OPTARG"; return 1 ;;
+        esac
+    done
+    echo "$2"  >> "${folderType}"
+}
+
+# youtube watch - launch script
+yt() {
+    local OPTIND folderLocation
+    while getopts "ybgB" option; do
+        case $option in
+            b) folderLocation=/home/james/.ytbassls;;
+            g) folderLocation=/home/james/.ytGuitar ;;
+            B) folderLocation=/home/james/.ytGuitarBacking  ;;
+            y) folderLocation=/home/james/.ytwatch ;;
+            ?) echo "invalid option $OPTARG"; return 1 ;;
+        esac
+    done
+    ytList=$(cat "${folderLocation}" | rofi -dmenu -i -p "Youtube: ") ;
+    ytfzf -D $ytList & fullScreen ;
+}
+# test
+fullScreen(){
+    sleep 1
+    while true
+    do
+        sleep 1
+        WINDOWID=$( sh -c 'xdotool search --name "mpv" | head -1 ')
+        if ! [ -z  $WINDOWID ]
+        then
+            xdotool windowfocus $WINDOWID;
+            xdotool key f ;
+            return 0;
+        fi
+    done
+}
+#bass script
+alias bass='/home/james/bash_scripts/learnBassTest.sh'
 
 #Haskell stack
 alias ghci='stack ghci'
